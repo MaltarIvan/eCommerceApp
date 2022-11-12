@@ -1,4 +1,6 @@
-﻿namespace eTickets.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace eTickets.Models
 {
     public class ActorMovie
     {
