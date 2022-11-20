@@ -219,7 +219,6 @@ namespace eTickets.Data
                     MovieCategory = MovieCategory.Drama
                 };
 
-
                 ActorMovie actorMovie1 = new ActorMovie()
                 {
                     ActorId = actor1.Id,
@@ -228,7 +227,7 @@ namespace eTickets.Data
 
                 ActorMovie actorMovie2 = new ActorMovie()
                 {
-                    ActorId = movie3.Id,
+                    ActorId = actor3.Id,
                     MovieId = movie1.Id
                 };
 
@@ -389,7 +388,7 @@ namespace eTickets.Data
                     context.ActorMovies.AddRange(new List<ActorMovie>()
                     {
                         actorMovie1,
-                        actorMovie2,
+                        // actorMovie2,
                         actorMovie3,
                         actorMovie4,
                         actorMovie5,

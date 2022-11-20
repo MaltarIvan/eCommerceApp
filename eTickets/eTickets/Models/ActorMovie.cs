@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using eTickets.Data.Base;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eTickets.Models
 {
