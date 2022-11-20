@@ -1,4 +1,5 @@
 using eTickets.Data;
+using eTickets.Data.Cart;
 using eTickets.Data.Services.Actors;
 using eTickets.Data.Services.Cinemas;
 using eTickets.Data.Services.Movies;
@@ -16,11 +17,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 // Add services to the container.
+builder.Services.AddSession();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IActorsService, ActorsService>();
 builder.Services.AddScoped<IProducersService, ProducersService>();
 builder.Services.AddScoped<ICinemasService, CinemasService>();
 builder.Services.AddScoped<IMoviesService, MoviesService>();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
 
 var app = builder.Build();
 
@@ -36,6 +42,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
 
