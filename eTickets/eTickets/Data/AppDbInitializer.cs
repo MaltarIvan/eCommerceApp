@@ -1,5 +1,8 @@
 ﻿using eTickets.Data.Enums;
+using eTickets.Data.Static;
 using eTickets.Models;
+using eTickets.Models.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Data
@@ -388,7 +391,7 @@ namespace eTickets.Data
                     context.ActorMovies.AddRange(new List<ActorMovie>()
                     {
                         actorMovie1,
-                        // actorMovie2,
+                        actorMovie2,
                         actorMovie3,
                         actorMovie4,
                         actorMovie5,
@@ -407,6 +410,62 @@ namespace eTickets.Data
                     });
 
                     context.SaveChanges();
+                }
+            }
+        }
+
+        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        {
+            using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                // Seed Roles
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                if(!await roleManager.RoleExistsAsync(UserRoles.Admin))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                }
+
+                if (!await roleManager.RoleExistsAsync(UserRoles.User))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+                }
+
+                // Seed Users
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+                string adminEmail = "admin@etickets.com";
+
+                var admin = await userManager.FindByEmailAsync(adminEmail);
+
+                if(admin == null)
+                {
+                    var newAdmin = new ApplicationUser()
+                    {
+                        FullName = "Admin User",
+                        UserName = "Admin",
+                        Email = adminEmail
+                    };
+
+                    await userManager.CreateAsync(newAdmin, "Forerunner205@");
+                    await userManager.AddToRoleAsync(newAdmin, UserRoles.Admin);
+                }
+
+                string userEmail = "user@etickets.com";
+
+                var user = await userManager.FindByEmailAsync(userEmail);
+
+                if (user == null)
+                {
+                    var newUser = new ApplicationUser()
+                    {
+                        FullName = "Basic User",
+                        UserName = "User",
+                        Email = userEmail
+                    };
+
+                    await userManager.CreateAsync(newUser, "Forerunner205@");
+                    await userManager.AddToRoleAsync(newUser, UserRoles.User);
                 }
             }
         }
