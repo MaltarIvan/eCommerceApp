@@ -1,4 +1,5 @@
-﻿using eTickets.Models;
+﻿using eTickets.Data.Static;
+using eTickets.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Data.Services.Orders
@@ -12,9 +13,19 @@ namespace eTickets.Data.Services.Orders
             _context = context;
         }
 
-        public async Task<List<Order>> GetOrdersByUserIdAsync(string userId)
+        public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId, string userRole)
         {
-            var orders = await _context.Orders.Where(x => x.UserId == userId).Include(x => x.OrderItems).ThenInclude(x => x.Movie).ToListAsync();
+            List<Order> orders = new List<Order>();
+
+            if(userRole == UserRoles.Admin)
+            {
+                orders = await _context.Orders.Include(x => x.OrderItems).ThenInclude(x => x.Movie).Include(x => x.User).ToListAsync();
+            }
+
+            if (userRole == UserRoles.User)
+            {
+                orders = await _context.Orders.Where(x => x.UserId == userId).Include(x => x.OrderItems).ThenInclude(x => x.Movie).Include(x => x.User).ToListAsync();
+            }
 
             return orders;
         }

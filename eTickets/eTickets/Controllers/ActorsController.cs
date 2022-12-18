@@ -1,6 +1,8 @@
 ﻿using eTickets.Data;
 using eTickets.Data.Services.Actors;
+using eTickets.Data.Static;
 using eTickets.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,12 +25,14 @@ namespace eTickets.Controllers
         }
 
         // Get Actors/Create
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Create([Bind("ProfilePictureURL, FullName, Bio")]Actor actor)
         {
             if (!ModelState.IsValid)
@@ -42,6 +46,7 @@ namespace eTickets.Controllers
         }
 
         // Get Actors/Edit/{id}
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(Guid id)
         {
             Actor actor = await _service.GetByIdAsync(id);
@@ -55,6 +60,7 @@ namespace eTickets.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id, ProfilePictureURL, FullName, Bio")] Actor actor)
         {
             if (!ModelState.IsValid)
@@ -68,6 +74,7 @@ namespace eTickets.Controllers
         }
 
         // Get Actors/Delete/{id}
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Delete(Guid id)
         {
             Actor actor = await _service.GetByIdAsync(id);
@@ -81,6 +88,7 @@ namespace eTickets.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             Actor actor = await _service.GetByIdAsync(id);

@@ -1,10 +1,13 @@
 ﻿using eTickets.Data;
 using eTickets.Data.Services.Movies;
+using eTickets.Data.Static;
 using eTickets.Data.VeiwModels;
 using eTickets.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace eTickets.Controllers
 {
@@ -49,6 +52,7 @@ namespace eTickets.Controllers
         }
 
         // Get: Movies/Create
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Create()
         {
             var movieDropdownsData = await _service.GetNewMovieDropdownsValues();
@@ -61,6 +65,7 @@ namespace eTickets.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Create(NewMovieVM movie)
         {
             if (!ModelState.IsValid)
@@ -78,8 +83,9 @@ namespace eTickets.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        
+
         // Get Movies/Edit/{id}
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(Guid id)
         {
             Movie movie = await _service.GetMovieByIdAsync(id);
@@ -114,6 +120,7 @@ namespace eTickets.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(Guid id, NewMovieVM movie)
         {
             if(id != movie.Id)

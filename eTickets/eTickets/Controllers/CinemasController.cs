@@ -1,9 +1,12 @@
 ﻿using eTickets.Data;
 using eTickets.Data.Services;
 using eTickets.Data.Services.Cinemas;
+using eTickets.Data.Static;
 using eTickets.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace eTickets.Controllers
 {
@@ -35,12 +38,14 @@ namespace eTickets.Controllers
         }
 
         // Get Cinemas/Create
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Create([Bind("LogoPictureURL, Name, Description")] Cinema cinema)
         {
             if (!ModelState.IsValid)
@@ -54,6 +59,7 @@ namespace eTickets.Controllers
         }
 
         // Get Cinemas/Edit/{id}
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(Guid id)
         {
             Cinema cinema = await _service.GetByIdAsync(id);
@@ -67,6 +73,7 @@ namespace eTickets.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Edit(Guid id, [Bind("Id, LogoPictureURL, Name, Description")] Cinema cinema)
         {
             if (!ModelState.IsValid)
@@ -80,6 +87,7 @@ namespace eTickets.Controllers
         }
 
         // Get Cinemas/Delete/{id}
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> Delete(Guid id)
         {
             Cinema cinema = await _service.GetByIdAsync(id);
@@ -93,6 +101,7 @@ namespace eTickets.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             Cinema cinema = await _service.GetByIdAsync(id);

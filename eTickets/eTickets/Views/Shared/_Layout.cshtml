@@ -34,36 +34,17 @@
                     </ul>
 
                     <form class="form-inline my-2 my-lg-0" asp-controller="Movies" asp-action="Filter" style="padding-right: 25px;">
-                        <input name="searchString" type="text" class="form-control" placeholder="Search for a movie..." />
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+                        <div class="input-group">
+                            <input name="searchString" type="text" class="form-control" placeholder="Search for a movie...">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+                        </div>
                     </form>
 
                     <ul class="navbar-nav">
                         @await Component.InvokeAsync("ShoppingCartSummary")
                     </ul>
                     
-                    @*User Profile section*@
-                    <div class="dropdown">
-                        <button class="btn btn-outline-success dropdown-toggle" type="button" id="profile-btn" data-toggle="dropdown" aria-expanded="false">
-                            <i class="bg bi-person-badge"></i> Hello User
-                            <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
-                                <i class="bi bi-list"></i>Orders
-                            </a>
-                        </button>
-                    </div>
-                    @*
-                    <div class="dropdown">
-                        <button class="btn btn-outline-success dropdown-toggle" type="button" id="profile-btn" data-toggle="dropdown" aria-expanded="false">
-                            <i class="bg bi-person-badge"></i> Hello User
-                            <ul class="dropdown-menu" aria-labelledby="profile-btn">
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
-                                        <i class="bi bi-list"></i>Orders
-                                    </a>
-                                </li>
-                            </ul>
-                        </button>
-                    </div>*@
+                    @await Html.PartialAsync("Partial/_Identity")
                 </div>
             </div>
         </nav>
