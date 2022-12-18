@@ -20,7 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddSession();
 
 builder.Services.AddControllersWithViews();
