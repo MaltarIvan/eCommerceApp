@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'e-tickets-application'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_01B6C0727EFA4503A830AB666D665D14 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_094735F4887D4F9893AFDEE92BE9DBB1 }}
           package: .
