@@ -33,7 +33,7 @@ namespace eTickets.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                data = data.Where(x => x.Name.Contains(searchString) || x.Description.Contains(searchString)).ToList();
+                data = data.Where(x => x.Name.ToUpper().Contains(searchString.ToUpper()) || x.Description.ToUpper().Contains(searchString.ToUpper())).ToList();
             }
 
             return View("Index", data);
